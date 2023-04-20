@@ -5,6 +5,7 @@ import {
   Box,
   FormControl,
   FormLabel,
+  FormErrorMessage,
   Input,
   Stack,
   Link,
@@ -45,6 +46,7 @@ export default function Home() {
     : '';
   const formattedEndDate = selectedDates[1] ? formatDate(selectedDates[1]) : '';
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [{ myPullRequests, myComments }, setGithubData] = useState<{
     myPullRequests: Contributions;
     myComments: Contributions;
@@ -66,12 +68,19 @@ export default function Home() {
   });
   const onSubmit = handleSubmit(async ({ pat, username }) => {
     setLoading(true);
-    const githubData = await fetchGitHubData({
-      pat: pat as string,
-      username: username as string,
-      startDate: formattedStartDate,
-      endDate: formattedEndDate,
-    });
+    let githubData;
+    try {
+      githubData = await fetchGitHubData({
+        pat: pat as string,
+        username: username as string,
+        startDate: formattedStartDate,
+        endDate: formattedEndDate,
+      });
+    } catch (e: any) {
+      setError(e.response.message);
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     const formattedGithubData = formatGitHubData(githubData, username);
     setGithubData(formattedGithubData);
@@ -175,20 +184,27 @@ export default function Home() {
                       }}
                     />
                   </FormControl>
-                  <Stack spacing={10}>
-                    <Button
-                      bg={'blue.400'}
-                      color={'white'}
-                      _hover={{
-                        bg: 'blue.500',
-                      }}
-                      isLoading={loading}
-                      loadingText=""
-                      type="submit"
-                    >
-                      Create GitHub Contribution
-                    </Button>
-                  </Stack>
+                  <FormControl isInvalid={!!error}>
+                    <Stack spacing={10}>
+                      <Button
+                        bg={'blue.400'}
+                        color={'white'}
+                        _hover={{
+                          bg: 'blue.500',
+                        }}
+                        isLoading={loading}
+                        loadingText=""
+                        type="submit"
+                      >
+                        Create GitHub Contribution
+                      </Button>
+                      {error && (
+                        <FormErrorMessage as={'b'} justifyContent={'center'}>
+                          {error}
+                        </FormErrorMessage>
+                      )}
+                    </Stack>
+                  </FormControl>
                 </Stack>
               </Box>
             </form>
