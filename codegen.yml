@@ -1,0 +1,12 @@
+overwrite: true
+schema: src/graphql/schema.docs.graphql
+config:
+  nonOptionalTypename: true
+  avoidOptionals: true
+generates:
+  src/graphql/types.ts:
+    documents: src/graphql/schema/Search.graphql
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-graphql-request

@@ -1,22 +1,51 @@
 {
-  "name": "my-contribution",
+  "name": "github-contribution",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md}\"",
+    "codegen": "graphql-codegen --config codegen.yml && prettier --write 'src/graphql/types.ts'"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.18",
+    "@chakra-ui/react": "^2.5.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@graphql-codegen/cli": "^3.3.0",
+    "chakra-dayzed-datepicker": "^0.2.7",
+    "date-fns": "^2.29.3",
+    "dayzed": "^3.2.3",
+    "framer-motion": "^10.12.4",
+    "graphql": "^16.6.0",
+    "graphql-request": "^5.1.0",
+    "graphql-tag": "^2.12.6",
+    "next": "13.3.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "3.3.0",
+    "@graphql-codegen/client-preset": "3.0.0",
+    "@graphql-codegen/typescript": "^3.0.3",
+    "@graphql-codegen/typescript-graphql-request": "^4.5.9",
+    "@graphql-codegen/typescript-operations": "^3.0.3",
     "@types/node": "18.15.11",
     "@types/react": "18.0.37",
     "@types/react-dom": "18.0.11",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
-    "next": "13.3.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "prettier": "^2.8.7",
     "typescript": "5.0.4"
   }
 }

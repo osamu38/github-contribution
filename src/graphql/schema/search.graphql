@@ -1,0 +1,67 @@
+fragment comments on IssueCommentConnection {
+  edges {
+    node {
+      bodyHTML
+      url
+      author {
+        login
+      }
+    }
+  }
+}
+
+fragment reviews on PullRequestReviewConnection {
+  edges {
+    node {
+      bodyHTML
+      url
+      author {
+        login
+      }
+      comments(last: 25) {
+        ...reviewComments
+      }
+    }
+  }
+}
+
+fragment reviewComments on PullRequestReviewCommentConnection {
+  edges {
+    node {
+      bodyHTML
+      url
+      author {
+        login
+      }
+    }
+  }
+}
+
+fragment pullRequest on PullRequest {
+  title
+  url
+  mergedAt
+  author {
+    login
+  }
+  comments(last: 25) {
+    ...comments
+  }
+  reviews(last: 25) {
+    ...reviews
+  }
+}
+
+query search($query: String!, $cursor: String) {
+  search(query: $query, after: $cursor, type: ISSUE, last: 100) {
+    issueCount
+    edges {
+      cursor
+      node {
+        ... on PullRequest {
+          ...pullRequest
+        }
+      }
+    }
+  }
+}
