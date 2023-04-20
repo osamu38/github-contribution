@@ -18,7 +18,7 @@ export const formatGitHubData = (
             .comments!.edges!.filter(
               (comment) =>
                 comment!.node!.author!.login === username &&
-                !['/e2e', '/hotfix'].includes(comment!.node!.body),
+                !['/e2e', '/hotfix'].includes(comment!.node!.bodyHTML),
             )
             .map((comment) => {
               const { author, ...rest } = comment!.node!;
